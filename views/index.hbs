@@ -6,6 +6,9 @@
 <script src="https://unpkg.com/@cubejs-client/core@0.19.56/dist/cubejs-client-core.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 <div class="container" id="app">
+  <button id="dash2">Dashboard 2</button>
+  <br>
+  <br>
   <div class="row">
     {{!-- <div class="col-md-4">
         <div class="card">
@@ -13,16 +16,6 @@
                 <h5 class="card-title">Total Number</h5>
                 <div class="card-text">
                     <h3 id="total-rows"></h3>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    {{!-- <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Count</h5>
-                <div class="card-text">
-                  <h3 id="total-rows"></h3>
                 </div>
             </div>
         </div>
@@ -43,6 +36,16 @@
                 <h5 class="card-title">Total Profit</h5>
                 <div class="card-text">
                   <h3 id="total-profit"></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Profit Percent</h5>
+                <div class="card-text">
+                  <h3 id="profit-ratio"></h3>
                 </div>
             </div>
         </div>
@@ -71,16 +74,26 @@
               </div>
           </div>
       </div>
-      {{!-- <div class="col-md-6">
+      <div class="col-md-6">
           <div class="card">
               <div class="card-body">
-                  <h5 class="card-title">Most Popular Languages</h5>
+                  <h5 class="card-title">Sales By Category</h5>
                   <div class="card-text">
-                    <canvas id="bar-chart"></canvas>
+                    <canvas id="Category"></canvas>
                   </div>
               </div>
           </div>
-      </div> --}}
+      </div>
+      <div class="col-md-6">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">Region wise Sales</h5>
+                  <div class="card-text">
+                    <canvas id="Region"></canvas>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 </div>
 <script>
@@ -89,9 +102,9 @@
     { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
   );
   var kpis = [
-   
     { measure: "Dash.quantityCount", element: "total-quantity" },
     { measure: "Dash.profit",element:"total-profit"},
+    { measure: "Dash.profitratio",element:"profit-ratio"}
   ];
   kpis.forEach(kpi => {
     cubejsApi.load({
@@ -132,18 +145,56 @@ cubejsApi.load({
   }).then(resultSet => {
     new Chart(document.getElementById("pie-states"), {
       type: 'doughnut',
-      options:{
-        plugins:{
-      datalabels:{
-        render:'value',
-        fontSize:14,
-        fontStyle:'bold',
-        fontColor:'#000',
-      }
-    }
-    },
+
       data: chartJsData(resultSet)
     })
+  }); 
+  
 
-  })   
+  cubejsApi.load({
+    measures: ["Dash.rowCount"],
+    dimensions: ["Dash.SalesbyCategory"],
+    filters: [
+      {
+        dimension: "Dash.SalesbyCategory",
+        operator: "notEquals",
+        values: [""]
+      }
+    ],
+    limit: 5
+  }).then(resultSet => {
+    new Chart(document.getElementById("Category"), {
+      type: 'pie',
+      data: chartJsData(resultSet)
+    })
+  });  
+
+
+
+cubejsApi.load({
+    measures: ["Dash.rowCount"],
+    dimensions: ["Dash.Region"],
+    limit: 5
+  }).then(resultSet => {
+    new Chart(document.getElementById("Region"), {
+      type: 'bar',
+      data: chartJsData(resultSet),
+      options: { 
+        legend: { display: false },
+        scales: {
+      yAxes: [{ticks: {
+        min: 0}
+        }],
+    }
+      }
+    })
+  }); 
+
+const dash2 = document.getElementById('dash2');
+dash2.addEventListener('click',funfordash2);
+function funfordash2()
+{
+  window.location.href="http://localhost:3000/page2";
+}
+
 </script>
