@@ -142,6 +142,7 @@ cubejsApi.load({
   }).then(resultSet => {
     new Chart(document.getElementById("pie-states"), {
       type: 'doughnut',
+
       data: chartJsData(resultSet)
     })
   }); 
@@ -175,7 +176,14 @@ cubejsApi.load({
     new Chart(document.getElementById("Region"), {
       type: 'bar',
       data: chartJsData(resultSet),
-      options: { legend: { display: false } }
+      options: { 
+        legend: { display: false },
+        scales: {
+      yAxes: [{ticks: {
+        min: 0}
+        }],
+    }
+      }
     })
   }); 
 
