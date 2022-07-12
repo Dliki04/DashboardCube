@@ -1,5 +1,8 @@
 cube(`Dash`, {
     sql: `select * from Dash`,
+    // refreshKey:{
+    //   every:'1 minute',
+    // }
     measures: {
     //   count: {
     //     type: `count`
@@ -12,23 +15,32 @@ cube(`Dash`, {
         sql: `Sales`
       },
       profit: {
-        type: `sum`,
-        sql: `Profit`
+        type: `runningTotal`,
+        sql: `Profit`,
+        format:`currency`
       },
-      profitRatio: {
-        type:`sum`,
-        
+      profitratio:{
+        sql: `${profit} / ${quantityCount}*100.0`,
+        type:`number`,
+        format:`percent`
       }
     },
     dimensions: {
       states: {
         type: `string`,
-        sql: `State`
+        sql: `State`,
+      },
+      SalesbyCategory:{
+        type:`string`,
+        sql:`Category`
+      },
+      Region:{
+        type:`string`,
+        sql:`Region`,
+        shown:false
       }
-    //   lang: {
-    //     type: `string`,
-    //     sql: `lang`
-    //   }
-    // }
   }
-});
+}
+);
+
+
