@@ -1,8 +1,8 @@
 cube(`Dash`, {
     sql: `select * from Dash`,
-    // refreshKey:{
-    //   every:'1 minute',
-    // }
+    refreshKey:{
+       every:'1 minute',
+    },
     measures: {
     //   count: {
     //     type: `count`
