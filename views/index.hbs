@@ -10,17 +10,17 @@
   <br>
   <br>
   <div class="row">
-    {{!-- <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Total Number</h5>
+                <h5 class="card-title">Total Orders</h5>
                 <div class="card-text">
                     <h3 id="total-rows"></h3>
                 </div>
             </div>
         </div>
-    </div> --}}
-    <div class="col-md-4">
+    </div>
+    <div class="col-md-3">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Total Sales (in $)</h5>
@@ -30,17 +30,17 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Total Profit</h5>
+                <h5 class="card-title">Total Profit(in$)</h5>
                 <div class="card-text">
                   <h3 id="total-profit"></h3>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Profit Percent</h5>
@@ -94,6 +94,16 @@
               </div>
           </div>
       </div>
+      <div class="col-md-6">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">Ordered User Details</h5>
+                  <div class="card-text">
+                    <canvas id="pie-users"></canvas>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 </div>
 <script>
@@ -102,9 +112,10 @@
     { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
   );
   var kpis = [
+  { measure: "Dash.rowCount", element: "total-rows" },
     { measure: "Dash.quantityCount", element: "total-quantity" },
     { measure: "Dash.profit",element:"total-profit"},
-    { measure: "Dash.profitratio",element:"profit-ratio"}
+    { measure: "Dash.profitratio",element:"profit-ratio"},
   ];
   kpis.forEach(kpi => {
     cubejsApi.load({
@@ -131,6 +142,27 @@
       labels: resultSet.categories().map(function(c) { return c.category })
     }
   }
+
+cubejsApi.load({
+    measures: ["Dash.rowCount"],
+    dimensions: ["Dash.Users"],
+    filters: [
+      {
+        dimension: "Dash.Users",
+        operator: "notEquals",
+        values: [""]
+      }
+    ],
+    limit: 5
+  }).then(resultSet => {
+    new Chart(document.getElementById("pie-users"), {
+      type: 'pie',
+
+      data: chartJsData(resultSet)
+    })
+  }); 
+
+
 cubejsApi.load({
     measures: ["Dash.rowCount"],
     dimensions: ["Dash.states"],
@@ -149,6 +181,7 @@ cubejsApi.load({
       data: chartJsData(resultSet)
     })
   }); 
+  
   
 
   cubejsApi.load({

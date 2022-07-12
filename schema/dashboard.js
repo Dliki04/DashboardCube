@@ -23,7 +23,7 @@ cube(`Dash`, {
       sql: `${profit} / ${quantityCount}*100.0`,
       type:`number`,
       format:`percent`
-    }
+    },
   },
   dimensions: {
     states: {
@@ -38,7 +38,11 @@ cube(`Dash`, {
       type:`string`,
       sql:`Region`,
       shown:false
-    }
+    },
+    Users: {
+      type: `string`,
+      sql: `Segment`,
+    },
 }
 }
 );
