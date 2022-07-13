@@ -10,6 +10,10 @@ cube(`Dash`, {
     rowCount: {
       type: `count`,
     },
+    sales:{
+      type:`sum`,
+      sql:`Sales`
+    },
     quantityCount: {
       type: `sum`,
       sql: `Sales`
@@ -28,9 +32,10 @@ cube(`Dash`, {
       sql: `Segment`,
       type: `count`,
     },
+    
     ConsumerOnly:{
-      sql: `Segment`,
-      type: `count`,
+      sql: `Sales`,
+      type: `sum`,
       filters: [{ sql: `${CUBE}.Segment = 'Consumer'` }],
     },
     ConsumerProfit:{
@@ -39,7 +44,37 @@ cube(`Dash`, {
       filters: [{ sql: `${CUBE}.Segment = 'Consumer'` }],
     },
     Consumer:{
-      sql: `${ConsumerProfit} / ${totalSegment}`,
+      sql: `${ConsumerProfit} / ${ConsumerOnly}*100`,
+      type:`number`,
+      format:`percent`
+    },
+    CorporateOnly:{
+      sql: `Sales`,
+      type: `sum`,
+      filters: [{ sql: `${CUBE}.Segment = 'Corporate'` }],
+    },
+    CorporateProfit:{
+      sql: `Profit`,
+      type: `runningTotal`,
+      filters: [{ sql: `${CUBE}.Segment = 'Corporate'` }],
+    },
+    Corporate:{
+      sql: `${CorporateProfit} / ${CorporateOnly}*100`,
+      type:`number`,
+      format:`percent`
+    },
+    HomeOfficeOnly:{
+      sql: `Sales`,
+      type: `sum`,
+      filters: [{ sql: `${CUBE}.Segment = 'Home Office'` }],
+    },
+    HomeOfficeProfit:{
+      sql: `Profit`,
+      type: `runningTotal`,
+      filters: [{ sql: `${CUBE}.Segment = 'Home Office'` }],
+    },
+    HomeOffice:{
+      sql: `${HomeOfficeProfit} / ${HomeOfficeOnly}*100`,
       type:`number`,
       format:`percent`
     },
@@ -64,7 +99,11 @@ cube(`Dash`, {
       type: `string`,
       sql: `Segment`,
     },
-    
+    Cities:{
+      type:`string`,
+      sql:`City`,
+      shown:false
+    },
 }
 }
 );

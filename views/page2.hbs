@@ -46,6 +46,18 @@
         </div>
 
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">Top 15 Sales by cities</h5>
+                  <div class="card-text">
+                    <canvas id="Cities"  width="97%" height="70"></canvas>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
 
     {{!-- <div>
       <button id="con">
@@ -264,7 +276,7 @@ function loadLiquidFillGauge(elementId, value, config) {
             .transition()
             .duration(config.waveRiseTime)
             .attr('transform', 'translate(' + waveGroupXPosition + ',' + waveRiseScale(fillPercent) + ')')
-            .each("start", function () {
+            .on("start", function () {
             wave.attr('transform', 'translate(1,0)');
         }); // This transform is necessary to get the clip wave positioned correctly when waveRise=true and waveAnimate=false. The wave will not position correctly without this, but it's not clear why this is actually necessary.
     } else {
@@ -278,7 +290,7 @@ function loadLiquidFillGauge(elementId, value, config) {
             .duration(config.waveAnimateTime)
             .ease("linear")
             .attr('transform', 'translate(' + waveAnimateScale(1) + ',0)')
-            .each("end", function () {
+            .on("end", function () {
             wave.attr('transform', 'translate(' + waveAnimateScale(0) + ',0)');
             animateWave(config.waveAnimateTime);
         });
@@ -295,14 +307,9 @@ const radioButtons = document.querySelectorAll('input[name="Segment"]');
             console.log(e);
             if (this.checked) 
             {
-                if(this.value === "Consumer")
-                {
                     document.querySelector('#output').innerText = `You selected ${this.value}`;
                     getValue(this.value);
 
-                }
-
-                
             }
         }
 
@@ -324,5 +331,61 @@ const radioButtons = document.querySelectorAll('input[name="Segment"]');
                 });
 
         }
+//color generator
+function getRandomColor() 
+{
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) 
+    {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
+//for top 15 cities
+
+var chartJsData = function(resultSet) {
+    return {
+      datasets: [{
+        data: resultSet.series()[0].series.map(function(r) { return r.value }),
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(255, 159, 64)',
+          'rgb(255, 205, 86)',
+          'rgb(75, 192, 192)',
+          'rgb(54, 162, 235)',
+          getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor()
+        ]
+      }],
+      labels: resultSet.categories().map(function(c) { return c.category })
+    }
+  }
+
+cubejsApi.load({
+    measures: ["Dash.sales"],
+    dimensions: ["Dash.Cities"],
+    limit: 15
+  }).then(resultSet => {
+    new Chart(document.getElementById("Cities"), {
+      type: 'horizontalBar',
+      data: chartJsData(resultSet),
+      options: { 
+        layout: {
+            padding: 10
+        },  
+        plugins: {
+    datalabels: {
+      display: false
+    }
+  },
+        legend: { display: false },
+        scales: {
+      yAxes: [{ticks: {
+        min: 0}
+        }],
+    }
+      }
+    })
+  }); 
 </script>
