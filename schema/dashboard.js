@@ -24,6 +24,27 @@ cube(`Dash`, {
       type:`number`,
       format:`percent`
     },
+    totalSegment:{
+      sql: `Segment`,
+      type: `count`,
+    },
+    ConsumerOnly:{
+      sql: `Segment`,
+      type: `count`,
+      filters: [{ sql: `${CUBE}.Segment = 'Consumer'` }],
+    },
+    ConsumerProfit:{
+      sql: `Profit`,
+      type: `runningTotal`,
+      filters: [{ sql: `${CUBE}.Segment = 'Consumer'` }],
+    },
+    Consumer:{
+      sql: `${ConsumerProfit} / ${totalSegment}`,
+      type:`number`,
+      format:`percent`
+    },
+    
+  
   },
   dimensions: {
     states: {
@@ -47,5 +68,6 @@ cube(`Dash`, {
     //   type:`string`,
     //   sql:`${Orders}.`
     // }
+    
 }
 });
