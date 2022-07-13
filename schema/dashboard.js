@@ -43,6 +43,9 @@ cube(`Dash`, {
       type: `string`,
       sql: `Segment`,
     },
+    // Region:{
+    //   type:`string`,
+    //   sql:`${Orders}.`
+    // }
 }
-}
-);
+});
