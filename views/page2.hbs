@@ -50,7 +50,8 @@
 
   </div>
 </div>
-<script>
+<script>      
+
   var cubejsApi = cubejs(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiYXBwSWQiOiIxIiwiaWF0IjoxNjU3NjExNjYyLCJleHAiOjE2NTc3ODQ0NjJ9.KU8tNbyDPqPTgxlPrlHGpJS73hxaXXWfYB5Q050sgaY',    { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
   );
@@ -280,4 +281,34 @@ function loadLiquidFillGauge(elementId, value, config) {
 }
 
 
+<<<<<<< HEAD
+=======
+const radioButtons = document.querySelectorAll('input[name="Segment"]');
+        for(const radioButton of radioButtons){
+            radioButton.addEventListener('change', showSelected);
+        }        
+        
+        function showSelected(e) {
+            console.log(e);
+            if (this.checked) 
+            {
+                document.querySelector('#output').innerText = `You selected ${this.value}`;
+
+                var kpis = [ { measure:"Dash.profitratio", element: "fillgauge1" }];
+                kpis.forEach(kpi => 
+                {
+                    cubejsApi.load(
+                        {
+                            measures: [kpi.measure]
+                        }).then(resultSet => 
+                        {
+                            document.getElementById(kpi.element).textContent =
+                            numeral(resultSet.totalRow()[kpi.measure]).format();
+                            loadLiquidFillGauge("fillgauge1", resultSet.totalRow()[kpi.measure]);
+                        })
+                });
+            }
+        }
+
+>>>>>>> 7fb3fa417f29608e5edb6a6efbe54828389f40dd
 </script>
