@@ -18,7 +18,7 @@
     <br />
     <br />
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">PROFIT %</h5>
@@ -58,6 +58,18 @@
           </div>
         </div>
     </div>
+    {{!-- <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Top Customers</h5>
+                    <div class="card-text">
+                      <svg id="Customers" width="97%" height="250"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
 
     {{!-- <div>
       <button id="con">
@@ -73,7 +85,7 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiYXBwSWQiOiIxIiwiaWF0IjoxNjU3NjExNjYyLCJleHAiOjE2NTc3ODQ0NjJ9.KU8tNbyDPqPTgxlPrlHGpJS73hxaXXWfYB5Q050sgaY',    { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
   );
   var kpis = [ 
-    { measure:"Dash.profitratio", element: "fillgauge1" },
+    { measure:"Dash.profitratio", element: "fillgauge1" }
   ];
   kpis.forEach(kpi => {
     cubejsApi.load({

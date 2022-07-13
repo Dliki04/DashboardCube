@@ -104,6 +104,10 @@ cube(`Dash`, {
       sql:`City`,
       shown:false
     },
+    // Regions:{
+    //   type:`string`,
+    //   sql:[{ sql:`${CUBE}.Region='W'`}]`
+    // }
+    
 }
-}
-);
+});
