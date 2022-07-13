@@ -64,9 +64,9 @@ cube(`Dash`, {
       type: `string`,
       sql: `Segment`,
     },
-    // Region:{
+    // Regions:{
     //   type:`string`,
-    //   sql:`${Orders}.`
+    //   sql:[{ sql:`${CUBE}.Region='W'`}]`
     // }
     
 }
