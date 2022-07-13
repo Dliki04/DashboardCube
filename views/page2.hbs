@@ -28,6 +28,22 @@
                 </div>
             </div>
         </div>
+        <div>
+            <div>
+                <input type="radio" name="Segment" value="Consumer" id="consumer">
+                <label for="consumer">Consumer</label>
+            </div>
+            <div>
+                <input type="radio" name="Segment" value="Corporator" id="corporator">
+                <label for="corporator">Corporator</label>
+            </div>
+            <div>
+                <input type="radio" name="Segment" value="Home Office" id="home office">
+                <label for="home office">Home Office</label>
+            </div>
+
+            <p id="output"></p>
+        </div>
 
     </div>
 
@@ -39,7 +55,8 @@
 
   </div>
 </div>
-<script>
+<script>      
+
   var cubejsApi = cubejs(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiYXBwSWQiOiIxIiwiaWF0IjoxNjU3NjExNjYyLCJleHAiOjE2NTc3ODQ0NjJ9.KU8tNbyDPqPTgxlPrlHGpJS73hxaXXWfYB5Q050sgaY',    { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
   );
@@ -267,5 +284,33 @@ function loadLiquidFillGauge(elementId, value, config) {
         });
     }
 }
+
+
+const radioButtons = document.querySelectorAll('input[name="Segment"]');
+        for(const radioButton of radioButtons){
+            radioButton.addEventListener('change', showSelected);
+        }        
+        
+        function showSelected(e) {
+            console.log(e);
+            if (this.checked) 
+            {
+                document.querySelector('#output').innerText = `You selected ${this.value}`;
+
+                var kpis = [ { measure:"Dash.profitratio", element: "fillgauge1" }];
+                kpis.forEach(kpi => 
+                {
+                    cubejsApi.load(
+                        {
+                            measures: [kpi.measure]
+                        }).then(resultSet => 
+                        {
+                            document.getElementById(kpi.element).textContent =
+                            numeral(resultSet.totalRow()[kpi.measure]).format();
+                            loadLiquidFillGauge("fillgauge1", resultSet.totalRow()[kpi.measure]);
+                        })
+                });
+            }
+        }
 
 </script>
