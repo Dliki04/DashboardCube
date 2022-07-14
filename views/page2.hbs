@@ -5,6 +5,8 @@
 <script src="https://unpkg.com/@cubejs-client/core@0.19.56/dist/cubejs-client-core.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+
 <style>
 
 .liquidFillGaugeText {
@@ -12,6 +14,7 @@
     font-weight: bold;
 }
 </style>
+
 <div class="container" id="app">
     {{!-- dashboard 2 --}}
   <div id="dashboard2">
@@ -19,16 +22,17 @@
     <br />
     <div class="row">
         <div class="col-md-3">
-            <div class="card">
+            <div >
                 <div class="card-body">
                     <h5 class="card-title">PROFIT %</h5>
                     <div class="card-text">
-                      <svg id="fillgauge1" width="97%" height="250"></svg>
+                      <svg id="fillgauge1" width="77%" height="150"></svg>
                     </div>
                 </div>
             </div>
         </div>
-        <div>
+        <div style="padding:30px ;">
+            <h5 class="card-title">Segment</h5>
             <div>
                 <input type="radio" name="Segment" value="Consumer" id="consumer">
                 <label for="consumer">Consumer</label>
@@ -44,6 +48,36 @@
 
             <p id="output"></p>
         </div>
+{{!-- Category --}}
+        <div  style="padding:30px ;">
+            <h5 class="card-title">Category</h5>
+            <div>
+                <input type="radio" name="Category" value="Furniture" id="furniture">
+                <label for="furniture">Furniture</label>
+            </div>
+            <div>
+                <input type="radio" name="Category" value="OfficeSupplies" id="office supplies">
+                <label for="office supplies">Office Supplies</label>
+            </div>
+            <div>
+                <input type="radio" name="Category" value="Technology" id="technology">
+                <label for="technology">Technology</label>
+            </div>
+
+            <p id="outputCat"></p>
+        </div>
+        <div >
+                <div class="card-body">
+                    <h5 class="card-title">Region</h5>
+                    <div class="card-text" style="display: flex; flex-direction:row ;">
+                        <div id='myDivCentral'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        <div id='myDivEast'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        <div id='myDivSouth'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        <div id='myDivWest'><!-- Plotly chart will be drawn inside this DIV --></div>
+                            
+                    </div>
+                </div>
+            </div>
 
     </div>
     <div class="row">
@@ -51,31 +85,14 @@
             <div class="card">
               <div class="card-body">
                   <h5 class="card-title">Top 15 Sales by cities</h5>
-                  <div class="card-text">
-                    <canvas id="Cities"  width="97%" height="70"></canvas>
-                  </div>
-              </div>
-          </div>
-        </div>
-    </div>
-    {{!-- <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Top Customers</h5>
                     <div class="card-text">
-                      <svg id="Customers" width="97%" height="250"></svg>
+                    <canvas id="Cities"  width="97%" height="70"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-    </div> --}}
-
-    {{!-- <div>
-      <button id="con">
-        Consumer
-      </button>
-    </div> --}}
+        
+    </div> 
 
   </div>
 </div>
@@ -99,26 +116,9 @@
 
 function liquidFillGaugeDefaultSettings() {
     return {
-        minValue: 0, // The gauge minimum value.
-        maxValue: 100, // The gauge maximum value.
-        circleThickness: 0.05, // The outer circle thickness as a percentage of it's radius.
-        circleFillGap: 0.05, // The size of the gap between the outer circle and wave circle as a percentage of the outer circles radius.
-        circleColor: "#178BCA", // The color of the outer circle.
-        waveHeight: 0.05, // The wave height as a percentage of the radius of the wave circle.
-        waveCount: 3, // The number of full waves per width of the wave circle.
-        waveRiseTime: 1000, // The amount of time in milliseconds for the wave to rise from 0 to it's final height.
-        waveAnimateTime: 1000, // The amount of time in milliseconds for a full wave to enter the wave circle.
-        waveRise: true, // Control if the wave should rise from 0 to it's full height, or start at it's full height.
-        waveHeightScaling: true, // Controls wave size scaling at low and high fill percentages. When true, wave height reaches it's maximum at 50% fill, and minimum at 0% and 100% fill. This helps to prevent the wave from making the wave circle from appear totally full or empty when near it's minimum or maximum fill.
-        waveAnimate: true, // Controls if the wave scrolls or is static.
-        waveColor: "#178BCA", // The color of the fill wave.
-        waveOffset: 0.25, // The amount to initially offset the wave. 0 = no offset. 1 = offset of one full wave.
-        textVertPosition: .8, // The height at which to display the percentage text withing the wave circle. 0 = bottom, 1 = top.
-        textSize: 0.6, // The relative height of the text to display in the wave circle. 1 = 50%
-        valueCountUp: true, // If true, the displayed value counts up from 0 to it's final value upon loading. If false, the final value is displayed.
-        displayPercent: true, // If true, a % symbol is displayed after the value.
-        textColor: "#045681", // The color of the value text when the wave does not overlap it.
-        waveTextColor: "#A4DBf8" // The color of the value text when the wave overlaps it.
+        minValue: 0,  maxValue: 100, circleThickness: 0.05,circleFillGap: 0.05, circleColor: "#178BCA",waveHeight: 0.05,waveCount: 3,waveRiseTime: 1000, // The amount of time in milliseconds for the wave to rise from 0 to it's final height.
+        waveAnimateTime: 1000,waveRise: true,waveHeightScaling: true,waveAnimate: true,waveColor: "#178BCA", waveOffset: 0.25,textVertPosition: .8,textSize: 0.6, valueCountUp: true, displayPercent: true,textColor: "#045681", 
+        waveTextColor: "#A4DBf8" 
     };
 }
 
@@ -191,9 +191,7 @@ function loadLiquidFillGauge(elementId, value, config) {
 
     // Scales for controlling the position of the clipping path.
     var waveRiseScale = d3.scaleLinear() 
-    // The clipping area size is the height of the fill circle + the wave height, so we position the clip wave
-    // such that the it will won't overlap the fill circle at all when at 0%, and will totally cover the fill
-    // circle at 100%.
+
     .range([(fillCircleMargin + fillCircleRadius * 2 + waveHeight), (fillCircleMargin - waveHeight)])
         .domain([0, 1]);
     var waveAnimateScale = d3.scaleLinear() 
@@ -281,7 +279,6 @@ function loadLiquidFillGauge(elementId, value, config) {
             .tween("text", textTween);
     }
 
-    // Make the wave rise. wave and waveGroup are separate so that horizontal and vertical movement can be controlled independently.
     var waveGroupXPosition = fillCircleMargin + fillCircleRadius * 2 - waveClipWidth;
     if (config.waveRise) {
         waveGroup.attr('transform', 'translate(' + waveGroupXPosition + ',' + waveRiseScale(0) + ')')
@@ -290,8 +287,7 @@ function loadLiquidFillGauge(elementId, value, config) {
             .attr('transform', 'translate(' + waveGroupXPosition + ',' + waveRiseScale(fillPercent) + ')')
             .on("start", function () {
             wave.attr('transform', 'translate(1,0)');
-        }); // This transform is necessary to get the clip wave positioned correctly when waveRise=true and waveAnimate=false. The wave will not position correctly without this, but it's not clear why this is actually necessary.
-    } else {
+        }); } else {
         waveGroup.attr('transform', 'translate(' + waveGroupXPosition + ',' + waveRiseScale(fillPercent) + ')');
     }
 
@@ -309,9 +305,44 @@ function loadLiquidFillGauge(elementId, value, config) {
     }
 }
 
-
+//for segment
 const radioButtons = document.querySelectorAll('input[name="Segment"]');
         for(const radioButton of radioButtons){
+            radioButton.addEventListener('change', showSelectedSeg);
+        }        
+        
+        function showSelectedSeg(e) {
+            console.log(e);
+            if (this.checked) 
+            {
+                    document.querySelector('#output').innerText = `You selected ${this.value}`;
+                    getValue(this.value);
+
+            }
+        }
+
+        function getValue(value)
+        {
+            var kpis = [ { measure:"Dash."+value, element: "fillgauge1" }];
+            kpis.forEach(kpi => 
+                {
+                    cubejsApi.load(
+                        {
+                            measures: [kpi.measure]
+                        }).then(resultSet => 
+                        {
+                            document.getElementById(kpi.element).textContent =
+                            numeral(resultSet.totalRow()[kpi.measure]).format();
+                            console.log("answer = " + resultSet.totalRow()[kpi.measure])
+                            loadLiquidFillGauge("fillgauge1", resultSet.totalRow()[kpi.measure]);
+                        })
+                });
+
+        }
+
+//for category
+const radioButtonsCat = document.querySelectorAll('input[name="Category"]');
+        for(const radioButton of radioButtonsCat){
             radioButton.addEventListener('change', showSelected);
         }        
         
@@ -319,7 +350,7 @@ const radioButtons = document.querySelectorAll('input[name="Segment"]');
             console.log(e);
             if (this.checked) 
             {
-                    document.querySelector('#output').innerText = `You selected ${this.value}`;
+                    document.querySelector('#outputCat').innerText = `You selected ${this.value}`;
                     getValue(this.value);
 
             }
@@ -384,7 +415,7 @@ cubejsApi.load({
       data: chartJsData(resultSet),
       options: { 
         layout: {
-            padding: 10
+            padding: 0
         },  
         plugins: {
     datalabels: {
@@ -400,4 +431,40 @@ cubejsApi.load({
       }
     })
   }); 
+
+
+
+//for regions
+function goval(region,num)
+{
+    var data = [
+	{
+		domain: { x: [0, 1], y: [0, 1] },
+		value: num,
+		title: { text: region },
+		type: "indicator",
+		mode: "gauge+number",
+        gauge: { axis: { visible: true, range: [0, 2297201] } },
+	}
+];
+
+var layout = { width: 300, height: 300, margin: { t: 0, b: 0 } };
+Plotly.newPlot('myDiv'+region, data, layout);
+}
+
+
+var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",region:"East"},{ measure:"Dash.West",region:"West"},{ measure:"Dash.South",region:"South"}];
+            kpis.forEach(kpi => 
+                {
+                    cubejsApi.load(
+                        {
+                            measures: [kpi.measure]
+                        }).then(resultSet => 
+                        {
+                            console.log("answer = " + resultSet.totalRow()[kpi.measure])
+                            goval(kpi.region,resultSet.totalRow()[kpi.measure]);
+                        })
+                });
+
+
 </script>

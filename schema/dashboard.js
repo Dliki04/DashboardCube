@@ -80,6 +80,72 @@ cube(`Dash`, {
     },
     
   
+    FurnitureOnly:{
+      sql: `Sales`,
+      type: `sum`,
+      filters: [{ sql: `${CUBE}.Category = 'Furniture'` }],
+    },
+    OfficeSuppliesOnly:{
+      sql: `Sales`,
+      type: `sum`,
+      filters: [{ sql: `${CUBE}.Category = 'Office Supplies'` }],
+    },
+    TechnologyOnly:{
+      sql: `Sales`,
+      type: `sum`,
+      filters: [{ sql: `${CUBE}.Category = 'Technology'` }],
+    },
+    FurnitureProfit:{
+      sql: `Profit`,
+      type: `runningTotal`,
+      filters: [{ sql: `${CUBE}.Category = 'Furniture'` }],
+    },
+    OfficeSuppliesProfit:{
+      sql: `Profit`,
+      type: `runningTotal`,
+      filters: [{ sql: `${CUBE}.Category = 'Office Supplies'` }],
+    },
+    TechnologyProfit:{
+      sql: `Profit`,
+      type: `runningTotal`,
+      filters: [{ sql: `${CUBE}.Category = 'Technology'` }],
+    },
+    Furniture:{
+      sql: `${FurnitureProfit} / ${FurnitureOnly}*100`,
+      type:`number`,
+      format:`percent`
+    },
+    OfficeSupplies:{
+      sql: `${OfficeSuppliesProfit} / ${OfficeSuppliesOnly}*100`,
+      type:`number`,
+      format:`percent`
+    },
+    Technology:{
+      sql: `${TechnologyProfit} / ${TechnologyOnly}*100`,
+      type:`number`,
+      format:`percent`
+    },
+
+    Central:{
+      sql:`Sales`,
+      type:`sum`,
+      filters: [{ sql: `${CUBE}.Region = 'Central'`}]
+    },
+    East:{
+      sql:`Sales`,
+      type:`sum`,
+      filters: [{ sql: `${CUBE}.Region = 'East'`}]
+    },
+    West:{
+      sql:`Sales`,
+      type:`sum`,
+      filters: [{ sql: `${CUBE}.Region = 'West'`}]
+    },
+    South:{
+      sql:`Sales`,
+      type:`sum`,
+      filters: [{ sql: `${CUBE}.Region = 'South'`}]
+    },
   },
   dimensions: {
     states: {
