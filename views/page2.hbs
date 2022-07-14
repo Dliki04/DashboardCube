@@ -58,18 +58,18 @@
           </div>
         </div>
     </div>
-    {{!-- <div class="row">
+    <div class="row">
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Top Customers</h5>
                     <div class="card-text">
-                      <svg id="Customers" width="97%" height="250"></svg>
+                      <svg id="West" width="97%" height="250"></svg>
                     </div>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     {{!-- <div>
       <button id="con">
@@ -399,5 +399,24 @@ cubejsApi.load({
     }
       }
     })
-  }); 
+  });
+
+cubejsApi.load({
+    measures: ["Dash.rowCount"],
+    dimensions: ["Dash.SubCategory"],
+    filters: [
+      {
+        dimension: "Dash.SubCategory",
+        operator: "notEquals",
+        values: [""]
+      }
+    ],
+    limit: 5
+  }).then(resultSet => {
+    new Chart(document.getElementById("West"), {
+      type: 'pie',
+      data: chartJsData(resultSet)
+    })
+  });  
+  
 </script>
