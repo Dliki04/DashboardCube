@@ -531,24 +531,31 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
                 });
 
 
-const AllYear = document.querySelectorAll('input[name="Year"]');
-        for(const year of AllYear){
-            year.addEventListener('click', showMessage);
-        }        
-        
-        function showMessage() {
-            console.log(this.value);
-            if(this.value === "All")
-            {
-                //alert('all');
+    const AllYear = document.querySelectorAll('input[name="Year"]');
+    for (const year of AllYear) {
+        year.addEventListener('click', showMessage);
+    }
 
-            }
-            else if(this.value === "2015")
-            {
-                //alert("2015");
-                //protif ratio
-                
-            }
+    function showMessage() {
+        console.log(this.value);
+        if (this.value === "All") {
+            //alert('all');
+
         }
+        else if (this.value === "2015") {
+            //alert("2015");
+            //protif ratio
+            var kpis = [{ measure: "dashplus.year"}];
+            kpis.forEach(kpi => {
+                cubejsApi.load(
+                    {
+                        measures: [kpi.measure]
+                    }).then(resultSet => {
+                        console.log("answer = " + resultSet.totalRow()[kpi.measure])
+                    })
+            });
+
+        }
+    }
 
 </script>

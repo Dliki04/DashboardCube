@@ -146,6 +146,7 @@ cube(`Dash`, {
       type:`sum`,
       filters: [{ sql: `${CUBE}.Region = 'South'`}]
     },
+    
   },
   dimensions: {
     states: {
@@ -173,8 +174,13 @@ cube(`Dash`, {
     SubCategory:{
       type:`string`,
       sql:`Product Name`,
-    }
+    },
+    date: {
+        sql: `PARSE_TIMESTAMP('%Y-%m-%d', 2015/01/01)`,
+        type: `time`,
+    },
     
     
 }
 });
+
