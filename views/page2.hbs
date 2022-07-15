@@ -531,16 +531,6 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
                 });
 
 
-//drop down for year
-      function show_hide() {
-         var click = document.getElementById("list-items");
-         if(click.style.display ==="none") {
-            click.style.display ="block";
-         } else {
-            click.style.display ="none";
-         } 
-      }
-
 const AllYear = document.querySelectorAll('input[name="Year"]');
         for(const year of AllYear){
             year.addEventListener('click', showMessage);
@@ -548,6 +538,17 @@ const AllYear = document.querySelectorAll('input[name="Year"]');
         
         function showMessage() {
             console.log(this.value);
+            if(this.value === "All")
+            {
+                //alert('all');
+
+            }
+            else if(this.value === "2015")
+            {
+                //alert("2015");
+                //protif ratio
+                
+            }
         }
 
 </script>
