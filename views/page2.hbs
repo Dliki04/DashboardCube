@@ -567,7 +567,7 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
             }
             console.log("profit equal to = ", profitofyear);
             cubejsApi.load({
-                measures: ["dashplus.sales"],
+                measures: ["dashplus.salesofcount"],
                 dimensions: ["dashplus.shipdate"],
 
             }).then(resultSet => {
@@ -576,8 +576,8 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
                 for (let i of resultSet['loadResponse']['data']) {
                     let year = i['dashplus.shipdate'].split("/");
                     if (year[2] === yearofrequired) {
-                        salesofyear += i['dashplus.sales'];
-                        console.log(i['dashplus.sales']);
+                        salesofyear += i['dashplus.salesofcount'];
+                        console.log(i['dashplus.salesofcount']);
                     }
                 }
                 console.log("sales equal to = ", salesofyear);
@@ -587,19 +587,66 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
             });
         });
 
-        var kpis = [ { measure:"dashplus.Central",region:"Central"},{ measure:"dashplus.East",region:"East"},{ measure:"dashplus.West",region:"West"},{ measure:"dashplus.South",region:"South"}];
-            kpis.forEach(kpi => 
-                {
-                    cubejsApi.load(
-                        {
-                            measures: [kpi.measure]
+
+        //for regions
+        cubejsApi.load({
+            measures: ["dashplus.sales"],
+            dimensions: ["dashplus.region"],
+            order: { 'dashplus.region': 'asc' },
+
+        }).then(resultSet => {
+            cubejsApi.load({
+                measures: ["dashplus.shipdata"],
+                dimensions: ["dashplus.region"],
+                order: { 'dashplus.region': 'asc' },
+
+            }).then(data => {
+                //console.log("central" + resultSet['loadResponse']['data'].length);
+                //console.log("data" + data['loadResponse']['data'].length)
+
+                cubejsApi.load({
+                    measures: ["dashplus.Central"],
+                    dimensions: ["dashplus.region"],
+                    order: { 'dashplus.region': 'asc' },
+                }).then(regiondata => {
+                    let cent = 0;
+                    let es = 0;
+                    let we = 0;
+                    let so = 0;
+                    for (let i = 0; i < data['loadResponse']['data'].length; i++) {
+                        let year = data['loadResponse']['data'][i]['dashplus.shipdata'].split("/");
+
+                        if (year[2] === yearofrequired) {
                             
-                        }).then(resultSet => 
-                        {
-                            console.log("answer = " + resultSet.totalRow()[kpi.measure])
-                            goval(kpi.region,resultSet.totalRow()[kpi.measure]);
-                        })
-                });
+                            if (regiondata['loadResponse']['data'][i]['dashplus.Central'] === 'Central') {
+                                cent += parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']);
+                                //console.log("data = "+ parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']));
+                            }
+                            //console.log(regiondata['loadResponse']['data'][i]['dashplus.Central']);
+                            if (regiondata['loadResponse']['data'][i]['dashplus.Central'] === 'East') {
+                                es += parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']);
+                                //console.log("data = "+ parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']));
+                            }
+                            if (regiondata['loadResponse']['data'][i]['dashplus.Central'] === 'West') {
+                                we += parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']);
+                                //console.log("data = "+ parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']));
+                            }
+                            if (regiondata['loadResponse']['data'][i]['dashplus.Central'] === 'South') {
+                                so += parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']);
+                                //console.log("data = "+ parseFloat(resultSet['loadResponse']['data'][i]['dashplus.sales']));
+                            }
+                        }
+                    }
+                    console.log("answer = "+cent);
+                    goval('Central',cent);
+                    goval('East',es);
+                    goval('West',we);
+                    goval('South',so);
+                })
+
+            })
+
+        });
 
     }
 </script>

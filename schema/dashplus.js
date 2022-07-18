@@ -5,15 +5,22 @@ cube(`dashplus`, {
       sql:`Profit`,
       type: `sum`, 
     },
-     sales:{
+    salesofcount:{
       sql:`Sales`,
       type:`sum`
+    },
+     sales:{
+      sql:`Sales`,
+      type:`number`
+     },
+     shipdata :{
+      sql:`ShipDate`,
+      type:`number`
      },
      Central:{
-      sql:`Sales`,
-      type:`sum`,
-      filters: [{ sql: `${CUBE}.Region = 'Central'`}]
-    },
+      sql:`Region`,
+      type:`number`
+     },
     East:{
       sql:`Sales`,
       type:`sum`,
@@ -34,6 +41,10 @@ cube(`dashplus`, {
     shipdate:{
       sql:`ShipDate`,
       type:`string`
+    },
+    region:{
+      sql:`RowID`,
+      type:`string`,
     },
    
   },
