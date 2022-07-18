@@ -537,6 +537,137 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
                 for(let i of resultSet['loadResponse']['data'])
                 {
                     let year = i['dashplus.shipdate'].split("/");
+                    if(year[2]==='2015')
+                    {
+                        profitofyear+=i['dashplus.count'];
+                        console.log(i['dashplus.count']);
+                    }
+                }
+                console.log("profit equal to = ",profitofyear);
+                cubejsApi.load({
+                    measures: ["dashplus.sales"],
+                    dimensions: ["dashplus.shipdate"],
+
+                }).then(resultSet => {
+                    console.log(resultSet['loadResponse']['data'])
+                    let salesofyear = 0;
+                    for (let i of resultSet['loadResponse']['data']) {
+                        let year = i['dashplus.shipdate'].split("/");
+                        if (year[2] === '2015') {
+                            salesofyear += i['dashplus.sales'];
+                            console.log(i['dashplus.sales']);
+                        }
+                    }
+                    console.log("sales equal to = ", salesofyear);
+                    //printratio(profitofyear/salesofyear *100);
+                    
+                    loadLiquidFillGauge("fillgauge1", profitofyear/salesofyear *100);
+                    
+
+                }); 
+            }); 
+
+        }
+        else if (this.value === "2016") {
+            //alert("2015");
+            //protif ratio
+            cubejsApi.load({
+                measures: ["dashplus.count"],
+                dimensions: ["dashplus.shipdate"],
+                
+            }).then(resultSet => {
+                console.log(resultSet['loadResponse']['data'])
+                let profitofyear = 0;
+                for(let i of resultSet['loadResponse']['data'])
+                {
+                    let year = i['dashplus.shipdate'].split("/");
+                    if(year[2]==='2016')
+                    {
+                        profitofyear+=i['dashplus.count'];
+                        console.log(i['dashplus.count']);
+                    }
+                }
+                console.log("profit equal to = ",profitofyear);
+                cubejsApi.load({
+                    measures: ["dashplus.sales"],
+                    dimensions: ["dashplus.shipdate"],
+
+                }).then(resultSet => {
+                    console.log(resultSet['loadResponse']['data'])
+                    let salesofyear = 0;
+                    for (let i of resultSet['loadResponse']['data']) {
+                        let year = i['dashplus.shipdate'].split("/");
+                        if (year[2] === '2016') {
+                            salesofyear += i['dashplus.sales'];
+                            console.log(i['dashplus.sales']);
+                        }
+                    }
+                    console.log("sales equal to = ", salesofyear);
+                    //printratio(profitofyear/salesofyear *100);     
+                    loadLiquidFillGauge("fillgauge1", profitofyear/salesofyear *100);
+                    
+
+                }); 
+            }); 
+
+        }
+        else if (this.value === "2017") {
+            //alert("2015");
+            //protif ratio
+            cubejsApi.load({
+                measures: ["dashplus.count"],
+                dimensions: ["dashplus.shipdate"],
+                
+            }).then(resultSet => {
+                console.log(resultSet['loadResponse']['data'])
+                let profitofyear = 0;
+                for(let i of resultSet['loadResponse']['data'])
+                {
+                    let year = i['dashplus.shipdate'].split("/");
+                    if(year[2]==='2017')
+                    {
+                        profitofyear+=i['dashplus.count'];
+                        console.log(i['dashplus.count']);
+                    }
+                }
+                console.log("profit equal to = ",profitofyear);
+                cubejsApi.load({
+                    measures: ["dashplus.sales"],
+                    dimensions: ["dashplus.shipdate"],
+
+                }).then(resultSet => {
+                    console.log(resultSet['loadResponse']['data'])
+                    let salesofyear = 0;
+                    for (let i of resultSet['loadResponse']['data']) {
+                        let year = i['dashplus.shipdate'].split("/");
+                        if (year[2] === '2017') {
+                            salesofyear += i['dashplus.sales'];
+                            console.log(i['dashplus.sales']);
+                        }
+                    }
+                    console.log("sales equal to = ", salesofyear);
+                    //printratio(profitofyear/salesofyear *100);
+                    
+                    loadLiquidFillGauge("fillgauge1", profitofyear/salesofyear *100);
+                    
+
+                }); 
+            }); 
+
+        }
+        else if (this.value === "2018") {
+            //alert("2015");
+            //protif ratio
+            cubejsApi.load({
+                measures: ["dashplus.count"],
+                dimensions: ["dashplus.shipdate"],
+                
+            }).then(resultSet => {
+                console.log(resultSet['loadResponse']['data'])
+                let profitofyear = 0;
+                for(let i of resultSet['loadResponse']['data'])
+                {
+                    let year = i['dashplus.shipdate'].split("/");
                     if(year[2]==='2018')
                     {
                         profitofyear+=i['dashplus.count'];
@@ -560,10 +691,51 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
                     }
                     console.log("sales equal to = ", salesofyear);
                     //printratio(profitofyear/salesofyear *100);
-                    const fillgauge1= document.getElementById('fillgauge1');
-                    fillgauge1.setAttribute('display','none');
                     loadLiquidFillGauge("fillgauge1", profitofyear/salesofyear *100);
-                    fillgauge1.setAttribute('display','block');
+                    
+
+                }); 
+            }); 
+
+        }
+        else if (this.value === "2019") {
+            //alert("2015");
+            //protif ratio
+            cubejsApi.load({
+                measures: ["dashplus.count"],
+                dimensions: ["dashplus.shipdate"],
+                
+            }).then(resultSet => {
+                console.log(resultSet['loadResponse']['data'])
+                let profitofyear = 0;
+                for(let i of resultSet['loadResponse']['data'])
+                {
+                    let year = i['dashplus.shipdate'].split("/");
+                    if(year[2]==='2019')
+                    {
+                        profitofyear+=i['dashplus.count'];
+                        console.log(i['dashplus.count']);
+                    }
+                }
+                console.log("profit equal to = ",profitofyear);
+                cubejsApi.load({
+                    measures: ["dashplus.sales"],
+                    dimensions: ["dashplus.shipdate"],
+
+                }).then(resultSet => {
+                    console.log(resultSet['loadResponse']['data'])
+                    let salesofyear = 0;
+                    for (let i of resultSet['loadResponse']['data']) {
+                        let year = i['dashplus.shipdate'].split("/");
+                        if (year[2] === '2019') {
+                            salesofyear += i['dashplus.sales'];
+                            console.log(i['dashplus.sales']);
+                        }
+                    }
+                    console.log("sales equal to = ", salesofyear);
+                    //printratio(profitofyear/salesofyear *100);
+                    
+                    loadLiquidFillGauge("fillgauge1", profitofyear/salesofyear *100);
 
                 }); 
             }); 
