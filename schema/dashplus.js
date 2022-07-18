@@ -4,6 +4,6 @@ cube(`dashplus`, {
     year:{
       sql:`ShipDate`,
       type:`count`,
-      filters: [{ sql: `${CUBE}.ShipDate ='03/22/2016'`}]
+      // filters: [{ sql: `${CUBE}.ShipDate between '01/01/2016' and '12/31/2016'`}]
     }}
   });
