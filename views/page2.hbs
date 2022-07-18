@@ -42,7 +42,7 @@
 <div class="container" id="app">
 
     {{!-- drop down --}}
-    <div class="dropdown" class="row">
+    <div class="dropdown" class="row" class="card">
         <label>Choose Year</label>
         <center>
             <!-- dropdown list items will show when we click the drop button --> 
@@ -67,8 +67,8 @@
             </div>
         </div>
     </div>
-        <br>
-    <br>
+    <br />
+    <br />
 
     {{!-- dashboard 2 --}}
     
@@ -121,20 +121,23 @@
 
             <p id="outputCat"></p>
         </div>
+       
+       <br>
         <div >
-                <div class="card-body">
-                    <h5 class="card-title">Region</h5>
+                {{!-- <div class="card"> --}}
+                    <h5 class="card-title">Regionwise Sales</h5>
                     <div class="card-text" style="display: flex; flex-direction:row ;">
-                        <div id='myDivCentral'><!-- Plotly chart will be drawn inside this DIV --></div>
-                        <div id='myDivEast'><!-- Plotly chart will be drawn inside this DIV --></div>
-                        <div id='myDivSouth'><!-- Plotly chart will be drawn inside this DIV --></div>
-                        <div id='myDivWest'><!-- Plotly chart will be drawn inside this DIV --></div>
-                            
+                        <div class="card" id='myDivCentral'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        <div class="card" id='myDivEast'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        <div class="card" id='myDivSouth'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        <div class="card" id='myDivWest'><!-- Plotly chart will be drawn inside this DIV --></div>
                     </div>
                 </div>
-            </div>
-
+            {{!-- </div> --}}
     </div>
+    <br />
+    <br />
+
     <div class="row">
         <div class="col-md-6">
             <div class="card">
