@@ -1,9 +1,21 @@
 cube(`dashplus`, {
-    sql: `select * from dashplus`,
-    measures: {
-    year:{
+  sql: `SELECT * FROM dashplus`,
+  measures: { 
+    count: { 
+      sql:`Profit`,
+      type: `sum`, 
+    },
+     sales:{
+      sql:`Sales`,
+      type:`sum`
+     }
+   
+  }, 
+  dimensions: { 
+    shipdate:{
       sql:`ShipDate`,
-      type:`count`,
-      // filters: [{ sql: `${CUBE}.ShipDate between '01/01/2016' and '12/31/2016'`}]
-    }}
-  });
+      type:`string`
+    },
+   
+  },
+});

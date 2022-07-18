@@ -502,6 +502,7 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
                     cubejsApi.load(
                         {
                             measures: [kpi.measure]
+                            
                         }).then(resultSet => 
                         {
                             console.log("answer = " + resultSet.totalRow()[kpi.measure])
@@ -517,6 +518,7 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
 
     function showMessage() {
         console.log(this.value);
+       
         if (this.value === "All") {
             //alert('all');
 
@@ -524,17 +526,55 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
         else if (this.value === "2015") {
             //alert("2015");
             //protif ratio
-            var kpis = [{ measure: "dashplus.year"}];
-            kpis.forEach(kpi => {
-                cubejsApi.load(
+            cubejsApi.load({
+                measures: ["dashplus.count"],
+                dimensions: ["dashplus.shipdate"],
+                
+            }).then(resultSet => {
+                console.log(resultSet['loadResponse']['data'])
+                let profitofyear = 0;
+                for(let i of resultSet['loadResponse']['data'])
+                {
+                    let year = i['dashplus.shipdate'].split("/");
+                    if(year[2]==='2018')
                     {
-                        measures: [kpi.measure]
-                    }).then(resultSet => {
-                        console.log("answer = " + resultSet.totalRow()[kpi.measure])
-                    })
-            });
+                        profitofyear+=i['dashplus.count'];
+                        console.log(i['dashplus.count']);
+                    }
+                }
+                console.log("profit equal to = ",profitofyear);
+                cubejsApi.load({
+                    measures: ["dashplus.sales"],
+                    dimensions: ["dashplus.shipdate"],
+
+                }).then(resultSet => {
+                    console.log(resultSet['loadResponse']['data'])
+                    let salesofyear = 0;
+                    for (let i of resultSet['loadResponse']['data']) {
+                        let year = i['dashplus.shipdate'].split("/");
+                        if (year[2] === '2018') {
+                            salesofyear += i['dashplus.sales'];
+                            console.log(i['dashplus.sales']);
+                        }
+                    }
+                    console.log("sales equal to = ", salesofyear);
+                    //printratio(profitofyear/salesofyear *100);
+                    const fillgauge1= document.getElementById('fillgauge1');
+                    fillgauge1.setAttribute('display','none');
+                    loadLiquidFillGauge("fillgauge1", profitofyear/salesofyear *100);
+                    fillgauge1.setAttribute('display','block');
+
+                }); 
+            }); 
 
         }
     }
 
+
 </script>
+
+{{!-- profitratio:{
+      sql: `${profit} / ${quantityCount}*100.0`,
+      type:`number`,
+      format:`percent`
+    }, --}}
