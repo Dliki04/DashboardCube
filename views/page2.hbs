@@ -74,7 +74,6 @@
     
   <div id="dashboard2">
     <br />
-    <br />
     <div class="row">
         <div class="col-md-3">
             <div class="card">
@@ -135,7 +134,6 @@
                 </div>
             {{!-- </div> --}}
     </div>
-    <br />
     <br />
 
     <div class="row">
@@ -502,7 +500,7 @@ function goval(region,num)
 		title: { text: region },
 		type: "indicator",
 		mode: "gauge+number",
-        gauge: { axis: { visible: true, range: [0, 2297201] } },
+        gauge: { axis: { visible: true } },
 	}
 ];
 
@@ -588,6 +586,20 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
 
             });
         });
+
+        var kpis = [ { measure:"dashplus.Central",region:"Central"},{ measure:"dashplus.East",region:"East"},{ measure:"dashplus.West",region:"West"},{ measure:"dashplus.South",region:"South"}];
+            kpis.forEach(kpi => 
+                {
+                    cubejsApi.load(
+                        {
+                            measures: [kpi.measure]
+                            
+                        }).then(resultSet => 
+                        {
+                            console.log("answer = " + resultSet.totalRow()[kpi.measure])
+                            goval(kpi.region,resultSet.totalRow()[kpi.measure]);
+                        })
+                });
 
     }
 </script>
