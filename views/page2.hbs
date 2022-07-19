@@ -159,7 +159,8 @@
 <script type="module">    
 
   var cubejsApi = cubejs(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiYXBwSWQiOiIxIiwiaWF0IjoxNjU3NjExNjYyLCJleHAiOjE2NTc3ODQ0NjJ9.KU8tNbyDPqPTgxlPrlHGpJS73hxaXXWfYB5Q050sgaY',    { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiYXBwSWQiOiIxIiwiaWF0IjoxNjU3NjExNjYyLCJleHAiOjE2NTc3ODQ0NjJ9.KU8tNbyDPqPTgxlPrlHGpJS73hxaXXWfYB5Q050sgaY',    
+    { apiUrl: 'http://localhost:3000/cubejs-api/v1' }
   );
   var kpis = [ 
     { measure:"Dash.profitratio", element: "fillgauge1" }
@@ -654,9 +655,3 @@ var kpis = [ { measure:"Dash.Central",region:"Central"},{ measure:"Dash.East",re
 
     }
 </script>
-
-{{!-- profitratio:{
-      sql: `${profit} / ${quantityCount}*100.0`,
-      type:`number`,
-      format:`percent`
-    }, --}}
